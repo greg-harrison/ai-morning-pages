@@ -13,19 +13,21 @@ services:
       - "5002:5002"
     depends_on:
       - db
-    environment:
-      DATABASE_URL: "postgres://username:password@db:5432/dbname"
+    # environment:
+    #   DATABASE_URL: "postgres://username:password@db:5432/dbname"
 
   db:
-    image: postgres:latest
-    ports:
-      - "5432:5432"
+    image: mariadb
+    restart: always
     environment:
-      POSTGRES_DB: dbname
-      POSTGRES_USER: username
-      POSTGRES_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
 
 volumes:
   db-data:
